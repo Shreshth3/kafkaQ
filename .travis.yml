@@ -1,0 +1,21 @@
+# ECR URI: 766817084721.dkr.ecr.us-east-2.amazonaws.com/kafkaq-website
+# S3 BUCKET NAME: elasticbeanstalk-us-east-2-766817084721
+services:
+  - docker
+dist: xenial
+script:
+  -  # something should go here
+  - python3 -VV
+  - pip -V
+
+before_deploy:
+  - python3 -m pip install --user awscli
+  - python3 -m pip install --user awsebcli
+  - export PATH=$PATH:$HOME/.local/bin
+env:
+  global: PATH=/opt/python/3.7.1/bin:$PATH
+deploy:
+  provider: script
+  skip_cleanup: true
+  on: main
+  script: sh $TRAVIS_BUILD_DIR/scripts/deploy.sh
